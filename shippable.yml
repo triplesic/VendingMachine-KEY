@@ -20,7 +20,7 @@ build:
   post_ci:
     - docker push triplesic/tdd-vending-machine:latest
     - cp -r target/surefire-reports/* shippable/testresults/
-    - cp -r target/jacoco.exec shippable/codecoverage
+    - cp -r target/jacoco.exec shippable/codecoverage/
 script:
 
 integrations:
