@@ -1,0 +1,45 @@
+# language setting
+language: java
+
+# jdk tag
+jdk:
+    - oraclejdk8
+
+#env:
+#    - CD_APP_NAME=helloworld CD_DEPLOYMENT_GROUP=triplesic
+
+build:
+  cache: true
+  ci:
+    - echo "Start building ......."
+    - echo $BUILD_URL
+    - mvn clean test
+    - mvn clean install
+    - docker build -t triplesic/tdd-vending-machine .
+
+  post_ci:
+    - docker push triplesic/tdd-vending-machine:latest
+script:
+
+integrations:
+    hub:
+      - integrationName: "Vending-Machine-docker"
+        type: docker
+
+    notifications:
+      - integrationName: email
+        type: email
+        recipients:
+          - triplesic@gmail.com
+        branches:
+          only:
+            - master
+            - dev
+        on_success: always
+        on_failure: always
+
+on_success:
+  - echo "Build Completed"
+
+on_failure:
+  - echo "Build Failed"
