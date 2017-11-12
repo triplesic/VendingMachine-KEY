@@ -19,6 +19,7 @@ build:
 
   post_ci:
     - docker push triplesic/tdd-vending-machine:latest
+    - cp -r target/surefire-reports/* shippable/testresults/
 script:
 
 integrations:
